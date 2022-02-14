@@ -77,6 +77,6 @@
         }
       ]
     },
-    "outputDir": "juicebox-jupyter/labextension"
+    "outputDir": "juicebox/labextension"
   }
 }

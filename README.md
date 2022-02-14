@@ -218,8 +218,8 @@ jupyter labextension build .
 
 Creating a conda environment
 ```bash
-conda create -n test python=3.7.1
-conda activate test
+conda create -n juicebox python=3.9.1
+conda activate juicebox
 conda install pip
 conda install jupyter
 
