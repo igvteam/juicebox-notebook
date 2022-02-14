@@ -1,5 +1,0 @@
-pip install juicebox-jupyter
-jupyter serverextension enable juicebox --sys-prefix
-jupyter labextension install --py juicebox
-jupyter nbextension install --py juicebox --sys-prefix
-jupyter nbextension enable --py juicebox --sys-prefix
