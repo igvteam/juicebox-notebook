@@ -1,0 +1,27 @@
+include LICENSE.md
+include README.md
+include pyproject.toml
+include jupyter-config/juicebox.json
+
+include package.json
+include install.json
+
+include juicebox/*
+include juicebox/nbextension/*
+include juicebox/nbextension/static/*
+#include juicebox/nbextension/static/igvjs/*
+include juicebox/labextension/*
+include juicebox/labextension/static/*
+include juicebox/labextension/schemas/*
+recursive-include juicebox/ *.js
+recursive-include juicebox/ *.json
+recursive-include juicebox/ *.txt
+recursive-include juicebox/ *.json.orig
+recursive-include juicebox/ *.map
+
+# Patterns to exclude from any directory
+global-exclude *~
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude .git
+global-exclude .ipynb_checkpoints
