@@ -12,6 +12,14 @@ define(
          */
         function load_ipython_extension() {
             registerComm()
+
+            // Load the juicebox css
+            var link = document.createElement("link")
+            link.type = "text/css"
+            link.rel = "stylesheet"
+            link.href = "https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/css/juicebox.css"
+            document.getElementsByTagName("head")[0].appendChild(link)
+
         }
 
         function registerComm() {
@@ -35,86 +43,89 @@ define(
                                 createBrowser(div, data.options, comm)
                                 break
 
-                            case "loadTrack":
-                                loadTrack(id, data.track)
-                                break
 
-                            case "search":
-                                search(id, data.locus)
-                                break
-
-                            case "zoomIn":
-                                try {
-                                    browser.zoomIn()
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break
-
-                            case "zoomOut":
-                                try {
-                                    browser.zoomOut()
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break
-
-                            case "remove":
-                                try {
-                                    delete juicebox.browserCache[id]
-                                    var div = document.getElementById(id)
-                                    div.parentNode.removeChild(div)
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break
-
-                            case "toSVG":
-                                try {
-                                    var svg = browser.toSVG()
-                                    var div = document.getElementById(data.div)
-                                    if(div) {
-                                        div.outerHTML += svg
-                                    }
-                                    comm.send(JSON.stringify({
-                                        "svg": svg
-                                    }))
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break;
-
-                            case "on":
-                                try {
-                                    if ("locuschange" === data.eventName) {
-                                        browser.on(data.eventName, function (referenceFrame) {
-                                            comm.send(JSON.stringify({
-                                                "event": data.eventName,
-                                                "data": referenceFrame
-                                            }))
-                                        })
-                                    } else {
-                                        alert("Unsupported event: " + data.eventName)
-                                    }
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break
+                            // ** igv.js methods follow, as examples **
+                            //
+                            // case "loadTrack":
+                            //     loadTrack(id, data.track)
+                            //     break
+                            //
+                            // case "search":
+                            //     search(id, data.locus)
+                            //     break
+                            //
+                            // case "zoomIn":
+                            //     try {
+                            //         browser.zoomIn()
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break
+                            //
+                            // case "zoomOut":
+                            //     try {
+                            //         browser.zoomOut()
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break
+                            //
+                            // case "remove":
+                            //     try {
+                            //         delete juicebox.browserCache[id]
+                            //         var div = document.getElementById(id)
+                            //         div.parentNode.removeChild(div)
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break
+                            //
+                            // case "toSVG":
+                            //     try {
+                            //         var svg = browser.toSVG()
+                            //         var div = document.getElementById(data.div)
+                            //         if(div) {
+                            //             div.outerHTML += svg
+                            //         }
+                            //         comm.send(JSON.stringify({
+                            //             "svg": svg
+                            //         }))
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break;
+                            //
+                            // case "on":
+                            //     try {
+                            //         if ("locuschange" === data.eventName) {
+                            //             browser.on(data.eventName, function (referenceFrame) {
+                            //                 comm.send(JSON.stringify({
+                            //                     "event": data.eventName,
+                            //                     "data": referenceFrame
+                            //                 }))
+                            //             })
+                            //         } else {
+                            //             alert("Unsupported event: " + data.eventName)
+                            //         }
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break
 
                             default:
                                 console.error("Unrecognized method: " + msg.method)
