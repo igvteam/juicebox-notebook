@@ -1,6 +1,5 @@
 define(
-    ["./juicebox"],
-    //["https://cdn.jsdelivr.net/npm/juicebox@2.1.0/dist/juicebox.min.js"],
+    ["nbextensions/juicebox/juicebox"],
     function (juicebox) {
 
         if (!juicebox.browserCache) {

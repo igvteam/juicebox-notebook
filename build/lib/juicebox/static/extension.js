@@ -1,6 +1,5 @@
 define(
     ["nbextensions/juicebox/juicebox"],
-    //["https://cdn.jsdelivr.net/npm/juicebox@2.1.0/dist/juicebox.min.js"],
     function (juicebox) {
 
         if (!juicebox.browserCache) {
@@ -11,10 +10,11 @@ define(
          * Load the IGV.js nbextension
          */
         function load_ipython_extension() {
+
             registerComm()
 
             // Load the juicebox css
-            var link = document.createElement("link")
+            const link = document.createElement("link")
             link.type = "text/css"
             link.rel = "stylesheet"
             link.href = "https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/css/juicebox.css"
