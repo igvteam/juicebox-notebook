@@ -1,5 +1,5 @@
 define(
-    ["nbextensions/juicebox/juiceboxjs/juicebox"],
+    ["nbextensions/juicebox/juicebox"],
     //["https://cdn.jsdelivr.net/npm/juicebox@2.1.0/dist/juicebox.min.js"],
     function (juicebox) {
 
@@ -40,16 +40,19 @@ define(
 
                             case "createBrowser":
                                 var div = document.getElementById(id)
-                                createBrowser(div, data.options, comm)
+                                createBrowser(div, data.options)
+                                break
+
+                            case "loadMap":
+                                loadMap(data.config)
+                                break
+
+                            case "loadTrack":
+                                loadTrack(data.config)
                                 break
 
 
                             // ** igv.js methods follow, as examples **
-                            //
-                            // case "loadTrack":
-                            //     loadTrack(id, data.track)
-                            //     break
-                            //
                             // case "search":
                             //     search(id, data.locus)
                             //     break
@@ -141,7 +144,7 @@ define(
                             // TODO -- send message that browser is ready
                             juicebox.createBrowser(div, config)
                                 .then(function (browser) {
-                                    juicebox.browserCache[config.id] = browser;
+                                    juicebox.browserCache[config.id] = browser
                                     if (comm) {
                                         comm.send('{"status": "ready"}')
                                     }
@@ -153,27 +156,37 @@ define(
                                 })
                                 .catch(function (error) {
                                     comm.send('{"status": "ready"}')
-                                    alert(error.message);
+                                    alert(error.message)
                                     console.error(e)
                                 })
                         }
 
-                        function loadTrack(id, config) {
-                            var browser = getBrowser(id)
-                            config.sync = true
-                            browser.loadTrack(config)
-                                .then(function (track) {
+                        function loadMap(config) {
+                            browser.loadHicFile(config)
+                                .then(function (ignore) {
                                     comm.send('{"status": "ready"}')
                                 })
                                 .catch(function (error) {
                                     comm.send('{"status": "ready"}')
-                                    alert(error.message);
+                                    alert(error.message)
+                                    console.error(e)
+                                })
+                        }
+
+                        function loadTrack(config) {
+                            browser.loadTracks([config])
+                                .then(function (ignore) {
+                                    comm.send('{"status": "ready"}')
+                                })
+                                .catch(function (error) {
+                                    comm.send('{"status": "ready"}')
+                                    alert(error.message)
                                     console.error(e)
                                 })
                         }
 
                         function search(id, locus) {
-                            var browser = getBrowser(id);
+                            var browser = getBrowser(id)
                             browser.search(locus)
                                 .then(function (ignore) {
                                     comm.send('{"status": "ready"}')
@@ -184,14 +197,14 @@ define(
                                     console.error(e)
                                 })
                         }
-                    });
+                    })
                     comm.on_close(function (msg) {
-                    });
-                });
+                    })
+                })
         }
 
         return {
             load_ipython_extension: load_ipython_extension,
-        };
+        }
 
-    });
+    })

@@ -1,5 +1,5 @@
 define(
-    ["nbextensions/juicebox/juiceboxjs/juicebox"],
+    ["nbextensions/juicebox/juicebox"],
     //["https://cdn.jsdelivr.net/npm/juicebox@2.1.0/dist/juicebox.min.js"],
     function (juicebox) {
 
@@ -12,6 +12,14 @@ define(
          */
         function load_ipython_extension() {
             registerComm()
+
+            // Load the juicebox css
+            const link = document.createElement("link")
+            link.type = "text/css"
+            link.rel = "stylesheet"
+            link.href = "https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/css/juicebox.css"
+            document.getElementsByTagName("head")[0].appendChild(link)
+
         }
 
         function registerComm() {
@@ -32,89 +40,95 @@ define(
 
                             case "createBrowser":
                                 var div = document.getElementById(id)
-                                createBrowser(div, data.options, comm)
+                                createBrowser(div, data.options)
+                                break
+
+                            case "loadMap":
+                                loadMap(data.config)
                                 break
 
                             case "loadTrack":
-                                loadTrack(id, data.track)
+                                loadTrack(data.config)
                                 break
 
-                            case "search":
-                                search(id, data.locus)
-                                break
 
-                            case "zoomIn":
-                                try {
-                                    browser.zoomIn()
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break
-
-                            case "zoomOut":
-                                try {
-                                    browser.zoomOut()
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break
-
-                            case "remove":
-                                try {
-                                    delete juicebox.browserCache[id]
-                                    var div = document.getElementById(id)
-                                    div.parentNode.removeChild(div)
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break
-
-                            case "toSVG":
-                                try {
-                                    var svg = browser.toSVG()
-                                    var div = document.getElementById(data.div)
-                                    if(div) {
-                                        div.outerHTML += svg
-                                    }
-                                    comm.send(JSON.stringify({
-                                        "svg": svg
-                                    }))
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break;
-
-                            case "on":
-                                try {
-                                    if ("locuschange" === data.eventName) {
-                                        browser.on(data.eventName, function (referenceFrame) {
-                                            comm.send(JSON.stringify({
-                                                "event": data.eventName,
-                                                "data": referenceFrame
-                                            }))
-                                        })
-                                    } else {
-                                        alert("Unsupported event: " + data.eventName)
-                                    }
-                                } catch (e) {
-                                    alert(e.message)
-                                    console.error(e)
-                                } finally {
-                                    comm.send('{"status": "ready"}')
-                                }
-                                break
+                            // ** igv.js methods follow, as examples **
+                            // case "search":
+                            //     search(id, data.locus)
+                            //     break
+                            //
+                            // case "zoomIn":
+                            //     try {
+                            //         browser.zoomIn()
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break
+                            //
+                            // case "zoomOut":
+                            //     try {
+                            //         browser.zoomOut()
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break
+                            //
+                            // case "remove":
+                            //     try {
+                            //         delete juicebox.browserCache[id]
+                            //         var div = document.getElementById(id)
+                            //         div.parentNode.removeChild(div)
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break
+                            //
+                            // case "toSVG":
+                            //     try {
+                            //         var svg = browser.toSVG()
+                            //         var div = document.getElementById(data.div)
+                            //         if(div) {
+                            //             div.outerHTML += svg
+                            //         }
+                            //         comm.send(JSON.stringify({
+                            //             "svg": svg
+                            //         }))
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break;
+                            //
+                            // case "on":
+                            //     try {
+                            //         if ("locuschange" === data.eventName) {
+                            //             browser.on(data.eventName, function (referenceFrame) {
+                            //                 comm.send(JSON.stringify({
+                            //                     "event": data.eventName,
+                            //                     "data": referenceFrame
+                            //                 }))
+                            //             })
+                            //         } else {
+                            //             alert("Unsupported event: " + data.eventName)
+                            //         }
+                            //     } catch (e) {
+                            //         alert(e.message)
+                            //         console.error(e)
+                            //     } finally {
+                            //         comm.send('{"status": "ready"}')
+                            //     }
+                            //     break
 
                             default:
                                 console.error("Unrecognized method: " + msg.method)
@@ -130,7 +144,7 @@ define(
                             // TODO -- send message that browser is ready
                             juicebox.createBrowser(div, config)
                                 .then(function (browser) {
-                                    juicebox.browserCache[config.id] = browser;
+                                    juicebox.browserCache[config.id] = browser
                                     if (comm) {
                                         comm.send('{"status": "ready"}')
                                     }
@@ -142,27 +156,37 @@ define(
                                 })
                                 .catch(function (error) {
                                     comm.send('{"status": "ready"}')
-                                    alert(error.message);
+                                    alert(error.message)
                                     console.error(e)
                                 })
                         }
 
-                        function loadTrack(id, config) {
-                            var browser = getBrowser(id)
-                            config.sync = true
-                            browser.loadTrack(config)
-                                .then(function (track) {
+                        function loadMap(config) {
+                            browser.loadHicFile(config)
+                                .then(function (ignore) {
                                     comm.send('{"status": "ready"}')
                                 })
                                 .catch(function (error) {
                                     comm.send('{"status": "ready"}')
-                                    alert(error.message);
+                                    alert(error.message)
+                                    console.error(e)
+                                })
+                        }
+
+                        function loadTrack(config) {
+                            browser.loadTracks([config])
+                                .then(function (ignore) {
+                                    comm.send('{"status": "ready"}')
+                                })
+                                .catch(function (error) {
+                                    comm.send('{"status": "ready"}')
+                                    alert(error.message)
                                     console.error(e)
                                 })
                         }
 
                         function search(id, locus) {
-                            var browser = getBrowser(id);
+                            var browser = getBrowser(id)
                             browser.search(locus)
                                 .then(function (ignore) {
                                     comm.send('{"status": "ready"}')
@@ -173,14 +197,14 @@ define(
                                     console.error(e)
                                 })
                         }
-                    });
+                    })
                     comm.on_close(function (msg) {
-                    });
-                });
+                    })
+                })
         }
 
         return {
             load_ipython_extension: load_ipython_extension,
-        };
+        }
 
-    });
+    })

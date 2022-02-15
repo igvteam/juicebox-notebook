@@ -81,41 +81,28 @@ class Browser(object):
         })
         self.comm.send(msg)
 
-    def search(self, locus):
+    def load_map(self, config):
         """
-        Go to the specified locus.
+        Load a track.  Corresponds to the juicebox.js Browser function loadTrack (see https://github.com/igvteam/juicebox.js/wiki/Browser-Control-2.0#loadtrack).
 
-        :param locus:  Chromosome location of the form  "chromsosome:start-end", or for supported genomes (hg38, hg19, and mm10) a gene name.
-        :type str
-
+        param  track: A dictionary specifying track options.  See https://github.com/igvteam/juicebox.js/wiki/Tracks-2.0.
+        :type dict
         """
+
+        # Check for minimal igv.js requirements (the only required field for all tracks is url, which must be a string)
+        if isinstance(config, dict) == False:
+            if isinstance(config, str):
+                config = {"url": config}
+            else:
+                raise Exception("parameter must be a dictionary or string")
 
         self._send({
             "id": self.igv_id,
-            "command": "search",
-            "locus": locus
+            "command": "loadMap",
+            "config": config
         })
 
-    def zoom_in(self):
-        """
-        Zoom in by a factor of 2
-        """
-
-        self._send({
-            "id": self.igv_id,
-            "command": "zoomIn"
-        })
-
-    def zoom_out(self):
-        """
-        Zoom out by a factor of 2
-        """
-        self._send({
-            "id": self.igv_id,
-            "command": "zoomOut"
-        })
-
-    def load_track(self, track):
+    def load_track(self, config):
         """
         Load a track.  Corresponds to the juicebox.js Browser function loadTrack (see https://github.com/igvteam/juicebox.js/wiki/Browser-Control-2.0#loadtrack).
 
@@ -123,68 +110,106 @@ class Browser(object):
         :type dict
         """
 
-        # Check for minimal juicebox.js requirements (the only required field for all tracks is url, which must be a string)
-        if isinstance(track, dict) == False:
-            raise Exception("track parameter must be a dictionary")
+        # Check for minimal igv.js requirements (the only required field for all tracks is url, which must be a string)
+        if isinstance(config, dict) == False:
+            if isinstance(config, str):
+                config = {"url": config}
+            else:
+                raise Exception("parameter must be a dictionary or string")
 
         self._send({
             "id": self.igv_id,
             "command": "loadTrack",
-            "track": track
+            "config": config
         })
 
-    def to_svg(self):
-        """
-        Fetch the current IGV view as an SVG image and display it in this cell
-        """
-        div_id = self._gen_id();
-        display(HTML("""<div id="%s"></div>""" % div_id))
-        self._send({
-            "id": self.igv_id,
-            "div": div_id,
-            "command": "toSVG"
-        })
 
-    def get_svg(self):
-        """
-        Fetch the current IGV view as an SVG image.  To display the message call display_svg()
-        """
-        self.svg = "FETCHING"
-        return self._send({
-            "id": self.igv_id,
-            "command": "toSVG"
-        })
-
-    def display_svg(self):
-        """
-        Display the current SVG image.  You must call get_svg() before calling this method.
-        """
-        if self.svg == None:
-            return "Must call get_svg() first"
-        elif self.svg == "FETCHING":
-            return 'Awaiting SVG - try again in a few seconds'
-        else:
-            svg = self.svg
-            self.svg == None
-            display(SVG(svg))
-
-
-    def on(self, eventName, cb):
-        """
-        Subscribe to an juicebox.js event.
-
-        :param Name of the event.  Currently only "locuschange" is supported.
-        :type str
-        :param cb - callback function taking a single argument.  For the locuschange event this argument will contain
-                a dictionary of the form  {chr, start, end}
-        :type function
-        """
-        self.eventHandlers[eventName] = cb
-        self._send({
-            "id": self.igv_id,
-            "command": "on",
-            "eventName": eventName
-        })
+# def search(self, locus):
+    #     """
+    #     Go to the specified locus.
+    #
+    #     :param locus:  Chromosome location of the form  "chromsosome:start-end", or for supported genomes (hg38, hg19, and mm10) a gene name.
+    #     :type str
+    #
+    #     """
+    #
+    #     self._send({
+    #         "id": self.igv_id,
+    #         "command": "search",
+    #         "locus": locus
+    #     })
+    #
+    # def zoom_in(self):
+    #     """
+    #     Zoom in by a factor of 2
+    #     """
+    #
+    #     self._send({
+    #         "id": self.igv_id,
+    #         "command": "zoomIn"
+    #     })
+    #
+    # def zoom_out(self):
+    #     """
+    #     Zoom out by a factor of 2
+    #     """
+    #     self._send({
+    #         "id": self.igv_id,
+    #         "command": "zoomOut"
+    #     })
+    #
+    # def to_svg(self):
+    #     """
+    #     Fetch the current IGV view as an SVG image and display it in this cell
+    #     """
+    #     div_id = self._gen_id();
+    #     display(HTML("""<div id="%s"></div>""" % div_id))
+    #     self._send({
+    #         "id": self.igv_id,
+    #         "div": div_id,
+    #         "command": "toSVG"
+    #     })
+    #
+    # def get_svg(self):
+    #     """
+    #     Fetch the current IGV view as an SVG image.  To display the message call display_svg()
+    #     """
+    #     self.svg = "FETCHING"
+    #     return self._send({
+    #         "id": self.igv_id,
+    #         "command": "toSVG"
+    #     })
+    #
+    # def display_svg(self):
+    #     """
+    #     Display the current SVG image.  You must call get_svg() before calling this method.
+    #     """
+    #     if self.svg == None:
+    #         return "Must call get_svg() first"
+    #     elif self.svg == "FETCHING":
+    #         return 'Awaiting SVG - try again in a few seconds'
+    #     else:
+    #         svg = self.svg
+    #         self.svg == None
+    #         display(SVG(svg))
+    #
+    #
+    # def on(self, eventName, cb):
+    #     """
+    #     Subscribe to an juicebox.js event.
+    #
+    #     :param Name of the event.  Currently only "locuschange" is supported.
+    #     :type str
+    #     :param cb - callback function taking a single argument.  For the locuschange event this argument will contain
+    #             a dictionary of the form  {chr, start, end}
+    #     :type function
+    #     """
+    #     self.eventHandlers[eventName] = cb
+    #     self._send({
+    #         "id": self.igv_id,
+    #         "command": "on",
+    #         "eventName": eventName
+    #     })
 
     def remove(self):
         """

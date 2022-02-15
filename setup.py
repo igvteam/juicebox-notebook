@@ -26,5 +26,5 @@ setuptools.setup(name='juicebox',
                      'jupyter',
                      'notebook>=4.2.0',
                  ],
-                 package_data={'juicebox': ['static/extension.js', 'static/juiceboxjs/*']},
+                 package_data={'juicebox': ['static/extension.js', 'static/juicebox.js']},
                  )

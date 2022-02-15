@@ -1,7 +1,7 @@
 
 # juicebox Jupyter Extension
 
-[![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/igvteam/juicebox/master?filepath=examples/BamFiles.ipynb)
+[![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-jupyter/master?filepath=examples/LoadMap.ipynb)
 =======
 
 
@@ -36,17 +36,7 @@ jupyter nbextension enable --py juicebox --sys-prefix
 
 ```
 
-## Usage
-
-### Examples
-
-Example notebooks are available in the github repository.   To download without cloning the repository use 
-this [link](https://github.com/igvteam/juicebox.js-jupyter/archive/master.zip).   Notebooks are available in the
-"examples" directory.
-
-
-
-### Initialization
+## Initialization
 
 To insert a juicebox instance into a cell:  
 
@@ -57,151 +47,86 @@ Example:
 ```python
 import juicebox
 
-b = juicebox.Browser({"genome": "hg19"})
+b = juicebox.Browser({})
 ```
 
 The juicebox.Browser initializer takes a configuration object which is converted to JSON and passed to the juicebox.js
 createBrowser function.   The configuration object is described in the
-[juicebox.js documentation](https://github.com/igvteam/juicebox.js/wiki/Browser-Configuration-2.0).
+[juicebox.js documentation](https://github.com/igvteam/juicebox.js#usage).  To open an empty "browser" to dynamically
+load maps pass an empty dictionary
 
 
-To instantiate the client side IGV instance in a cell call show()
+To instantiate the client side juicebox instance in a cell call show()
 
 
 ```python
 b.show()
 ```
 
-### Tracks
+## Maps
+
+To load a map pass a hic file configuration objec to load_map
+
+```python
+b.load_map(
+    {
+         "url": "https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/primary.hic"
+    }
+)
+```
+
+## Tracks
 
 To load a track pass a track configuration object to load_track().  Track configuration
-objects are described in the [juicebox.js documentation](https://github.com/igvteam/juicebox.js/wiki/Tracks-2.0).
+objects are described in the [juicebox.js documentation](https://github.com/igvteam/juicebox.js#usage).
 The configuration object will be converted to JSON and passed to the juicebox.js browser
 instance.
 
-Data for the track can be loaded by URL or passed directly as an array of JSON objects.
 
-
-#### Remote URL
+**Example: remote URL**
 
 ```python
 b.load_track(
     {
-        "name": "Segmented CN",
-        "url": "https://data.broadinstitute.org/igvdata/test/juicebox-web/segmented_data_080520.seg.gz",
-        "format": "seg",
-        "indexed": False
-    })
-
+    "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
+    "name": "CTCF",
+    "color": "#ff8802"
+    }
+)
 ```
 
-#### Local File
+**Example: local file**
 
 Tracks can be loaded from local files using the Jupyter web server by prepending "files" to the path.  The path
 is relative to the notebook file.  
 
 ```python
+
 b.load_track(
     {
-        "name": "Local VCF",
-        "url": "files/data/example.vcf",
-        "format": "vcf",
-        "type": "variant",
-        "indexed": False
-    })
+    "url": "files/data/ENCFF000ARJ.bigWig",
+    "name": "CTCF",
+    "color": "#ff8802"
+    }
+)
 ```
 
-#### Embedded Features
 
-Features can also be passed directly to tracks.
 
-```python
-b.load_track({
-    "name": "Copy number",
-    "type": "seg",
-    "displayMode": "EXPANDED",
-    "height": 100,
-    "isLog": True,
-    "features": [
-        {
-            "chr": "chr20",
-            "start": 1233820,
-            "end": 1235000,
-            "value": 0.8239,
-            "sample": "TCGA-OR-A5J2-01"
-        },
-        {
-            "chr": "chr20",
-            "start": 1234500,
-            "end": 1235180,
-            "value": -0.8391,
-            "sample": "TCGA-OR-A5J3-01"
-        }
-    ]
-})
-```
+### Development
 
-### Navigation
+#### Update juicebox.js from NPM, or elsewhere.
 
-Zoom in by a factor of 2
+(1) Edit script updateJuicebox.sh as needed to download juicebox.js, or juicebox.min.js.  Note: Mush use the AMD module, not ES6
+(2) Update manual load of corresponding juicebox.css in juicebox/static/extension.js as needed
 
-```python
-b.zoom_in()
-```
-
-Zoom out by a factor of 2
-
-```python
-b.zoom_out()
-```
-
-Jump to a specific locus
-
-```python
-b.search('chr1:3000-4000')
-
-```
-
-Jump to a specific gene.  This uses the IGV search web service, which currently supports a limited number of genomes:  hg38, hg19, and mm10.
-To configure a custom search service see the [juicebox.js documentation](https://github.com/igvteam/juicebox.js/wiki/Browser-Configuration-2.0#search-object-details)
-
-```python
-b.search('myc')
-
-```
-
-### SVG output
-
-Saving the current IGV view as an SVG image requires two calls.  
-
-```python
-b.get_svg()
-
-b.display_svg()
+```bash
+./updateJuicebox.sh
 
 ```
 
 
-### Events
-
-**_Note: This is an experimental feature._**
-
-```python
-
-def locuschange(data):
-    b.locus = data
-
-    b.on("locuschange", locuschange)
-
-    b.zoom_in()
-
-    return b.locus
-
-```
-
-#### Development
-
-Creating a conda environment:
+#### Creating a conda environment:
 ```bash
 conda create -n juicebox python=3.9.1
 conda activate juicebox
@@ -209,7 +134,7 @@ conda install pip
 conda install jupyter
 ```
 
-Build and install from source:
+#### Build and install from source:
 
 ```bash
 python setup.py build
@@ -218,11 +143,14 @@ jupyter nbextension install --py juicebox
 jupyter nbextension enable --py juicebox
 ```
 
-If you need a clean start, this is python after all
+#### To rebuild after code changes
+
+./rebuild.sh
+
+#### If you need a clean start, this is python after all
 ```bash
 conda deactivate
 conda env remove -n juicebox
-
 ```
 
 
