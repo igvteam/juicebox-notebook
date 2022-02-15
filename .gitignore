@@ -4,3 +4,4 @@
 /build/
 /node_modules/
 /juicebox.egg-info/
+/examples/.ipynb_checkpoints/

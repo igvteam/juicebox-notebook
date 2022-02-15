@@ -115,15 +115,6 @@ b.load_track(
 
 ### Development
 
-#### Update juicebox.js from NPM, or elsewhere.
-
-(1) Edit script updateJuicebox.sh as needed to download juicebox.js, or juicebox.min.js.  Note: Mush use the AMD module, not ES6
-(2) Update manual load of corresponding juicebox.css in juicebox/static/extension.js as needed
-
-```bash
-./updateJuicebox.sh
-
-```
 
 
 #### Creating a conda environment:
@@ -147,10 +138,23 @@ jupyter nbextension enable --py juicebox
 
 ./rebuild.sh
 
+
 #### If you need a clean start, this is python after all
 ```bash
 conda deactivate
 conda env remove -n juicebox
+```
+
+#### Update juicebox.js from NPM, or elsewhere.
+
+The "juicebox.js" file must be local, as it is loaded by "require".  To update to a new version
+
+1. Edit script updateJuicebox.sh as needed to download juicebox.js, or juicebox.min.js.  Note: Mush use the AMD module, not ES6
+1. Update manual load of corresponding juicebox.css in juicebox/static/extension.js as needed
+
+```bash
+./updateJuicebox.sh
+
 ```
 
 

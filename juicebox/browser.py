@@ -19,11 +19,10 @@ class Browser(object):
 
     # Always remember the *self* argument
     def __init__(self, config):
-        """Initialize an juicebox Browser object.
 
+        """Initialize a python Browser object for communicating with a juicebox.js javascript Browser object
         :param: config - A dictionary specifying the browser configuration.  This will be converted to JSON and passed
-                to juicebox.js  "juicebox.createBrowser(config)" as described in the juicebox.js documentation. See
-                https://github.com/igvteam/juicebox.js/wiki/Browser-Configuration-2.0 for configuration options.
+                to juicebox.js  "juicebox.createBrowser(config)" as described in the juicebox.js documentation.
         :type dict
         """
 
@@ -57,6 +56,8 @@ class Browser(object):
                         eventData = data['data']
                     handler(eventData)
 
+        self.show()
+
     @property
     def status(self):
         return self._status
@@ -70,9 +71,10 @@ class Browser(object):
 
     def show(self):
         """
-        Create an juicebox.js "Browser" instance on the front end.
+        Create an juicebox.js "Browser" instance on the front end.  This must be done first.
         """
         display(HTML("""<div id="%s"></div>""" % (self.igv_id)))
+
         # DON'T check status before showing browser,
         msg = json.dumps({
             "id": self.igv_id,
@@ -83,13 +85,12 @@ class Browser(object):
 
     def load_map(self, config):
         """
-        Load a track.  Corresponds to the juicebox.js Browser function loadTrack (see https://github.com/igvteam/juicebox.js/wiki/Browser-Control-2.0#loadtrack).
-
-        param  track: A dictionary specifying track options.  See https://github.com/igvteam/juicebox.js/wiki/Tracks-2.0.
+        Load a map (i.e. hic file).
+        param  config: A dictionary specifying map options
         :type dict
         """
 
-        # Check for minimal igv.js requirements (the only required field for all tracks is url, which must be a string)
+        # Check for minimal requirements
         if isinstance(config, dict) == False:
             if isinstance(config, str):
                 config = {"url": config}
@@ -104,14 +105,13 @@ class Browser(object):
 
     def load_track(self, config):
         """
-        Load a track.  Corresponds to the juicebox.js Browser function loadTrack (see https://github.com/igvteam/juicebox.js/wiki/Browser-Control-2.0#loadtrack).
-
-        :param  track: A dictionary specifying track options.  See https://github.com/igvteam/juicebox.js/wiki/Tracks-2.0.
+        Load a track.  Corresponds to the juicebox.js Browser function
         :type dict
         """
 
-        # Check for minimal igv.js requirements (the only required field for all tracks is url, which must be a string)
+        # Check for minimal  requirements
         if isinstance(config, dict) == False:
+
             if isinstance(config, str):
                 config = {"url": config}
             else:
