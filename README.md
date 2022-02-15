@@ -1,7 +1,7 @@
 
 # juicebox Jupyter Extension
 
-[![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-jupyter/master?filepath=examples/LoadMap.ipynb)
+[![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-jupyter/main?filepath=examples/LoadMap.ipynb)
 =======
 
 
