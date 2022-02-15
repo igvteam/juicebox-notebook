@@ -1,5 +1,5 @@
 define(
-    ["nbextensions/juicebox/juicebox"],
+    ["./juicebox"],
     //["https://cdn.jsdelivr.net/npm/juicebox@2.1.0/dist/juicebox.min.js"],
     function (juicebox) {
 
@@ -11,6 +11,7 @@ define(
          * Load the IGV.js nbextension
          */
         function load_ipython_extension() {
+
             registerComm()
 
             // Load the juicebox css
