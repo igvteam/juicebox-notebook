@@ -5,13 +5,9 @@
 =======
 
 
-juicebox is an extension for [Jupyter Notebook](http://jupyter.org/) which
-wraps [juicebox.js](https://github.com/igvteam/juicebox.js).  With this
-extension you can render juicebox.js in a cell and call its API from
-the notebook. The extension exposes a python API that mimics the juicebox.js 
-Browser creation and control APIs.   Dictionaries are used for browser and track 
-configuration objects.   Track data can be loaded from local or remote 
-URLs,  or supplied directly as lists of objects.
+juicebox is an module for [Jupyter Notebook](http://jupyter.org/) which
+wraps [juicebox.js](https://github.com/igvteam/juicebox.js).  The module exposes a python API that 
+enables creation and interaction with a juicebox.js instance in a cell.  
 
 ## Installation
 
@@ -19,34 +15,20 @@ Requirements:
 * python >= 3.6.4
 * jupyter >= 4.2.0
 
-
 ```bash
 pip install juicebox
-
-# To install to configuration in your home directory
-jupyter serverextension enable --py juicebox
-jupyter nbextension install --py juicebox
-jupyter nbextension enable --py juicebox
-
-
-# If using a virtual environment
-jupyter serverextension enable --py juicebox --sys-prefix
-jupyter nbextension install --py juicebox --sys-prefix
-jupyter nbextension enable --py juicebox --sys-prefix
-
 ```
 
 ## Initialization
 
 To insert a juicebox instance into a cell:  
 
-(1) create an juicebox.Browser object,and (2) call showBrowser on the instance.
 
 Example:
 
 ```python
 import juicebox
-
+juicebox.init()
 b = juicebox.Browser({})
 ```
 
@@ -55,13 +37,6 @@ createBrowser function.   The configuration object is described in the
 [juicebox.js documentation](https://github.com/igvteam/juicebox.js#usage).  To open an empty "browser" to dynamically
 load maps pass an empty dictionary
 
-
-To instantiate the client side juicebox instance in a cell call show()
-
-
-```python
-b.show()
-```
 
 ## Maps
 
@@ -128,29 +103,15 @@ conda install jupyter
 #### Build and install from source:
 
 ```bash
-python setup.py build
+python setup.py build   ??? TODO - not sure this is needed anymorr
 pip install -e .
-jupyter nbextension install --py juicebox
-jupyter nbextension enable --py juicebox
 ```
-
-#### To rebuild after code changes
-
-./rebuild.sh
-
 
 #### If you need a clean start, this is python after all
 ```bash
 conda deactivate
 conda env remove -n juicebox
 ```
-
-#### Update juicebox.js from NPM, or elsewhere.
-
-The "juicebox.js" file must be local, as it is loaded by "require".  To update to a new version
-
-1. Edit script updateJuicebox.sh as needed to download juicebox.js, or juicebox.min.js.  Note: Mush use the AMD module, not ES6
-1. Update manual load of corresponding juicebox.css in juicebox/static/extension.js as needed
 
 ```bash
 ./updateJuicebox.sh

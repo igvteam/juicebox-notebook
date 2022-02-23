@@ -22,9 +22,9 @@ setuptools.setup(name='juicebox',
                      'Programming Language :: Python',
                      'Framework :: IPython',
                  ],
-                 install_requires=[
-                     'jupyter',
-                     'notebook>=4.2.0',
-                 ],
-                 package_data={'juicebox': ['static/extension.js', 'static/juicebox.js']},
+                 # install_requires=[
+                 #     'jupyter',
+                 #     'notebook>=4.2.0',
+                 # ],
+                 package_data={'juicebox': ['static/messageHandler.js', 'static/juicebox.js']},
                  )

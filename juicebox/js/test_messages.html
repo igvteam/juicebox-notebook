@@ -1,0 +1,106 @@
+<html>
+<head>
+    <title>Juicebox</title>
+
+    <!-- NOTE:  these files must be injected into the notebook page from python before sending juicebox messages -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/css/juicebox.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/juicebox.js"></script>
+    <script type="text/javascript" src="messageHandler.js"></script>
+
+</head>
+
+<body>
+
+
+<b>This page simulates sending messages from a Jupyter notebook to an embedded Juicbox "browser</b>
+<p>
+    To use click buttons left to right, browser must exist before loading a map, map must be loaded before a track
+</p>
+<p>
+
+    <button id="createBrowser">Create Browser</button>
+    <button id="loadMap">Load Map</button>
+    <button id="loadTrack">Load Track</button>
+</p>
+
+<p>
+<div id="nbCell"></div>
+</p>
+
+<script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        // Simulate messages coming from python
+        let browserID
+
+        document.getElementById("createBrowser").addEventListener("click", () => {
+
+            browserID = "jb_" + String.valueOf(Math.random())
+            // Div creation code is "injected" with IPython.display(HTML....   Simulate that here
+
+            const browserDiv = document.createElement("div")
+            browserDiv.setAttribute("id", browserID)
+            document.getElementById("nbCell").appendChild(browserDiv)
+
+            const message = {
+                "command": "createBrowser",
+                "id": browserID,
+                "data": {}
+            }
+            window.JuiceboxMessageHandler.on(JSON.stringify(message))
+
+
+            window.JuiceboxMessageHandler.on({
+                "id": "jb_8391463",
+                "command": "createBrowser",
+                "data": {
+                    "name": "GM12878",
+                    "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic",
+                    "tracks": [{
+                        "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
+                        "name": "CTCF",
+                        "color": "rgb(22, 129, 198)"
+                    }],
+                    "id": "jb_8391463"
+                }
+            })
+
+        })
+
+        document.getElementById("loadMap").addEventListener("click", () => {
+
+            const message = {
+                command: "loadMap",
+                id: browserID,
+                data: {
+                    "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic"
+                }
+            }
+            window.JuiceboxMessageHandler.on(JSON.stringify(message))
+
+        })
+
+        document.getElementById("loadTrack").addEventListener("click", () => {
+            const message = {
+                command: "loadTrack",
+                id: browserID,
+                data: {
+                    "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
+                    "name": "CTCF",
+                    "color": "#ff8802"
+                }
+            }
+            window.JuiceboxMessageHandler.on(JSON.stringify(message))
+
+        })
+
+    })
+
+
+</script>
+
+</body>
+
+</html>
