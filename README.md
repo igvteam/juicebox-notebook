@@ -40,7 +40,7 @@ load maps pass an empty dictionary
 
 ## Maps
 
-To load a map pass a hic file configuration objec to load_map
+To load a map pass a hic file configuration object to load_map
 
 ```python
 b.load_map(
@@ -52,7 +52,7 @@ b.load_map(
 
 ## Tracks
 
-To load a track pass a track configuration object to load_track().  Track configuration
+To load a track pass a track configuration object to load_track.  Track configuration
 objects are described in the [juicebox.js documentation](https://github.com/igvteam/juicebox.js#usage).
 The configuration object will be converted to JSON and passed to the juicebox.js browser
 instance.
@@ -113,10 +113,6 @@ conda deactivate
 conda env remove -n juicebox
 ```
 
-```bash
-./updateJuicebox.sh
-
-```
 
 
 
