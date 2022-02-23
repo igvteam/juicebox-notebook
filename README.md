@@ -103,7 +103,7 @@ conda install jupyter
 #### Build and install from source:
 
 ```bash
-python setup.py build   ??? TODO - not sure this is needed anymorr
+python setup.py build  
 pip install -e .
 ```
 
