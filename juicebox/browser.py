@@ -117,6 +117,27 @@ class Browser(object):
         })
 
 
+    def load_track_list(self, config):
+        """
+        Load a list of tracks.  Corresponds to the juicebox.js Browser function loadTrackList
+        :type list
+        """
+
+        # Check for minimal  requirements
+        if isinstance(config, list) == False:
+
+            if isinstance(config, str):
+                config = {"url": config}
+            else:
+                raise Exception("parameter must be an array or string")
+
+        self._send({
+            "id": self.igv_id,
+            "command": "loadTrackList",
+            "data": config
+        })
+
+
     def _send(self, msg):
         javascript = """window.JuiceboxMessageHandler.on(%s)""" % (json.dumps(msg))
         # print(javascript)
