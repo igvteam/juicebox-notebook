@@ -4,3 +4,4 @@
 /build/
 /node_modules/
 /examples/.ipynb_checkpoints/
+/juicebox/__pycache__
