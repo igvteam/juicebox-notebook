@@ -36,6 +36,11 @@ def init():
     message_js = file.read()
     display(Javascript(message_js))
 
+def hello_javascript():
+    display(Javascript('console.log("hello")'))
+
+def hello_html():
+    display(HTML("<div>Hello</div"))
 
 
 

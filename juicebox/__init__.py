@@ -1,2 +1,1 @@
-from .browser import Browser
-from .browser import init
+from .browser import Browser, init, hello_javascript, hello_html
