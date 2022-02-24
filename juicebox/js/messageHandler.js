@@ -8,7 +8,6 @@
  */
 
 // Use a self-evaluating function to keep variables in this file scope, with the execption of the global handler
-var JuiceboxMessageHandler
 
 (function () {
 
@@ -28,7 +27,7 @@ var JuiceboxMessageHandler
 
         async processQueue() {
             if (!this.processing) {
-                this.processing = true;
+                this.processing = true
                 while (!this.messageQueue.isEmpty()) {
                     const msg = this.messageQueue.dequeue()
                     const command = msg.command
@@ -60,7 +59,7 @@ var JuiceboxMessageHandler
                         console.error(e)
                     }
                 }
-                this.processing = false;
+                this.processing = false
             }
         }
     }
@@ -91,7 +90,7 @@ var JuiceboxMessageHandler
         }
     }
 
-    JuiceboxMessageHandler = new MessageHandler()
+    window.JuiceboxMessageHandler = new MessageHandler()
 
     console.log("JuiceboxMessageHandler installed")
 
