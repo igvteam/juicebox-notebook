@@ -7,6 +7,8 @@ from IPython.display import HTML, Javascript, display
 
 def init():
 
+    display(HTML("Loading CSS"))
+
     juicebox_css = """
     const link = document.createElement("link")
     link.type = "text/css"
@@ -15,6 +17,8 @@ def init():
     document.getElementsByTagName("head")[0].appendChild(link)
     """
     display(Javascript(juicebox_css))
+
+    display(HTML("Loading FontAwesom"))
 
     font_awesome_css = """
     const link = document.createElement("link")
@@ -25,11 +29,15 @@ def init():
     """
     display(Javascript(font_awesome_css))
 
+    display(HTML("Loading juicebox.js"))
+
     juicebox_filepath = os.path.join(os.path.dirname(__file__), 'js/juicebox.js')
     juicebox_file = open(juicebox_filepath, 'r')
     juicebox_js = juicebox_file.read()
     display(Javascript(juicebox_js))
     #display(Javascript(url="https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/juicebox.min.js"))
+
+    display(HTML("Loading messageHandler"))
 
     message_filepath = os.path.join(os.path.dirname(__file__), 'js/messageHandler.js')
     file = open(message_filepath, 'r')
