@@ -9,40 +9,40 @@ def init():
 
     display(HTML("Loading CSS"))
 
-    juicebox_css = """
-    const link = document.createElement("link")
-    link.type = "text/css"
-    link.rel = "stylesheet"
-    link.href = "https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/css/juicebox.css"
-    document.getElementsByTagName("head")[0].appendChild(link)
-    """
-    display(Javascript(juicebox_css))
-
-    display(HTML("Loading FontAwesom"))
-
-    font_awesome_css = """
-    const link = document.createElement("link")
-    link.type = "text/css"
-    link.rel = "stylesheet"
-    link.href = "https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
-    document.getElementsByTagName("head")[0].appendChild(link)    
-    """
-    display(Javascript(font_awesome_css))
-
-    display(HTML("Loading juicebox.js"))
-
-    juicebox_filepath = os.path.join(os.path.dirname(__file__), 'js/juicebox.js')
-    juicebox_file = open(juicebox_filepath, 'r')
-    juicebox_js = juicebox_file.read()
-    display(Javascript(juicebox_js))
-    #display(Javascript(url="https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/juicebox.min.js"))
-
-    display(HTML("Loading messageHandler"))
-
-    message_filepath = os.path.join(os.path.dirname(__file__), 'js/messageHandler.js')
-    file = open(message_filepath, 'r')
-    message_js = file.read()
-    display(Javascript(message_js))
+    # juicebox_css = """
+    # const link = document.createElement("link")
+    # link.type = "text/css"
+    # link.rel = "stylesheet"
+    # link.href = "https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/css/juicebox.css"
+    # document.getElementsByTagName("head")[0].appendChild(link)
+    # """
+    # display(Javascript(juicebox_css))
+    #
+    # display(HTML("Loading FontAwesom"))
+    #
+    # font_awesome_css = """
+    # const link = document.createElement("link")
+    # link.type = "text/css"
+    # link.rel = "stylesheet"
+    # link.href = "https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+    # document.getElementsByTagName("head")[0].appendChild(link)
+    # """
+    # display(Javascript(font_awesome_css))
+    #
+    # display(HTML("Loading juicebox.js"))
+    #
+    # juicebox_filepath = os.path.join(os.path.dirname(__file__), 'js/juicebox.js')
+    # juicebox_file = open(juicebox_filepath, 'r')
+    # juicebox_js = juicebox_file.read()
+    # display(Javascript(juicebox_js))
+    # #display(Javascript(url="https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/juicebox.min.js"))
+    #
+    # display(HTML("Loading messageHandler"))
+    #
+    # message_filepath = os.path.join(os.path.dirname(__file__), 'js/messageHandler.js')
+    # file = open(message_filepath, 'r')
+    # message_js = file.read()
+    # display(Javascript(message_js))
 
 def hello_javascript():
     display(Javascript('console.log("hello")'))
