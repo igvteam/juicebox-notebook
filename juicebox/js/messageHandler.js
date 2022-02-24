@@ -11,6 +11,8 @@
 
 (function () {
 
+    console.log("Installing JuiceboxMessageHandler")
+
     class MessageHandler {
 
         constructor() {
@@ -90,5 +92,6 @@
 
     window.JuiceboxMessageHandler = new MessageHandler()
 
+    console.log("JuiceboxMessageHandler installed")
 
 })()
