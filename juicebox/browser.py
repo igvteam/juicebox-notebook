@@ -127,7 +127,7 @@ class Browser(object):
 
 
     def _send(self, msg):
-        javascript = """JuiceboxMessageHandler.on(%s)""" % (json.dumps(msg))
+        javascript = """window.JuiceboxMessageHandler.on(%s)""" % (json.dumps(msg))
         # print(javascript)
         display(Javascript(javascript))
 
