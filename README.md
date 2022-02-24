@@ -1,13 +1,11 @@
 
-# juicebox Jupyter Extension
+# juicebox notebook module
 
-[![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-jupyter/main?filepath=examples)
+[![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-notebook/main?filepath=examples)
 =======
 
-
-juicebox is an module for [Jupyter Notebook](http://jupyter.org/) which
-wraps [juicebox.js](https://github.com/igvteam/juicebox.js).  The module exposes a python API that 
-enables creation and interaction with a juicebox.js instance in a cell.  
+juicebox-notebook is an module for Jupyter and Colab notesbooks which exposes a python API that 
+enables creation and interaction with a [juicebox.js](https://github.com/igvteam/juicebox.js) instance in a cell.  
 
 ## Installation
 
@@ -29,7 +27,18 @@ Example:
 ```python
 import juicebox
 juicebox.init()
-b = juicebox.Browser({})
+b = juicebox.Browser({
+        "name": "GM12878",
+        "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic",
+        "tracks": [
+            {
+                "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
+                "name": "CTCF",
+                "color": "rgb(22, 129, 198)"
+            }
+        ]
+    }
+)
 ```
 
 The juicebox.Browser initializer takes a configuration object which is converted to JSON and passed to the juicebox.js
@@ -40,9 +49,12 @@ load maps pass an empty dictionary
 
 ## Maps
 
-To load a map pass a hic file configuration object to load_map
+To load a map into an existing browser pass a hic file configuration object to the load_map function
 
 ```python
+import juicebox
+juicebox.init()
+b = juicebox.Browser({})
 b.load_map(
     {
          "url": "https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/primary.hic"
@@ -58,33 +70,22 @@ The configuration object will be converted to JSON and passed to the juicebox.js
 instance.
 
 
-**Example: remote URL**
 
 ```python
-b.load_track(
-    {
+import juicebox
+juicebox.init()
+b = juicebox.Browser({
+        "name": "GM12878",
+        "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic"
+    }
+)
+
+b.load_track({
     "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
     "name": "CTCF",
     "color": "#ff8802"
-    }
+  }
 )
-```
-
-**Example: local file**
-
-Tracks can be loaded from local files using the Jupyter web server by prepending "files" to the path.  The path
-is relative to the notebook file.  
-
-```python
-
-b.load_track(
-    {
-    "url": "files/data/ENCFF000ARJ.bigWig",
-    "name": "CTCF",
-    "color": "#ff8802"
-    }
-)
-```
 
 
 
