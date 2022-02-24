@@ -7,7 +7,8 @@ from IPython.display import HTML, Javascript, display
 
 def init():
 
-    display(HTML("Loading CSS"))
+    print("Loading CSS")
+    display(HTML("<div>Loading CSS</div>"))
 
     # juicebox_css = """
     # const link = document.createElement("link")
