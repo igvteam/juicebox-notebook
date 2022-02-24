@@ -8,6 +8,7 @@
  */
 
 // Use a self-evaluating function to keep variables in this file scope, with the execption of the global handler
+var JuiceboxMessageHandler
 
 (function () {
 
@@ -90,7 +91,7 @@
         }
     }
 
-    window.JuiceboxMessageHandler = new MessageHandler()
+    JuiceboxMessageHandler = new MessageHandler()
 
     console.log("JuiceboxMessageHandler installed")
 
