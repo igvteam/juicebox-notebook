@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(name='juicebox',
                  packages=['juicebox'],
                  version='0.1.0',
-                 description='Jupyter extension for embedding the juicebox.js genome visualization in a notebook',
+                 description='Package for embedding the juicebox.js genome visualization in IPython notebooks',
                  long_description=long_description,
                  long_description_content_type="text/markdown",
                  license='MIT',
