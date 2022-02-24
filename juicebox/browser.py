@@ -14,7 +14,7 @@ def init():
     link.href = "https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/css/juicebox.css"
     document.getElementsByTagName("head")[0].appendChild(link)
     """
-    display.Javascript(juicebox_css)
+    display(Javascript(juicebox_css))
 
     font_awesome_css = """
     const link = document.createElement("link")
@@ -23,18 +23,18 @@ def init():
     link.href = "https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
     document.getElementsByTagName("head")[0].appendChild(link)    
     """
-    display.Javascript(font_awesome_css)
+    display(Javascript(font_awesome_css))
 
     juicebox_filepath = os.path.join(os.path.dirname(__file__), 'js/juicebox.js')
     juicebox_file = open(juicebox_filepath, 'r')
     juicebox_js = juicebox_file.read()
-    display.Javascript(juicebox_js)
+    display(Javascript(juicebox_js))
     #display(Javascript(url="https://cdn.jsdelivr.net/npm/juicebox.js@2.2.0/dist/juicebox.min.js"))
 
     message_filepath = os.path.join(os.path.dirname(__file__), 'js/messageHandler.js')
     file = open(message_filepath, 'r')
     message_js = file.read()
-    display.Javascript(message_js)
+    display(Javascript(message_js))
 
 
 
@@ -64,7 +64,7 @@ class Browser(object):
         """
         Create an juicebox.js "Browser" instance on the front end.  This must be done first.
         """
-        display.HTML("""<div id="%s"></div>""" % (self.igv_id))
+        display(HTML("""<div id="%s"></div>""" % (self.igv_id)))
 
         self._send({
             "id": self.igv_id,
@@ -116,7 +116,7 @@ class Browser(object):
     def _send(self, msg):
         javascript = """window.JuiceboxMessageHandler.on(%s)""" % (json.dumps(msg))
         # print(javascript)
-        display.Javascript(javascript)
+        display(Javascript(javascript))
 
     def _gen_id(self):
         return 'jb_' + str(random.randint(1, 10000000))
