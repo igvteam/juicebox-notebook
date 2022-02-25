@@ -52,6 +52,11 @@
                                 await browser.loadTracks([data])
                                 break
 
+                            case "loadTrackList":
+                                browser = this.browserCache.get(id)
+                                await browser.loadTracks(data)
+                                break
+
                             default:
                                 console.error("Unrecognized method: " + msg.command)
                         }

@@ -22,6 +22,7 @@
     <button id="createBrowser">Create Browser</button>
     <button id="loadMap">Load Map</button>
     <button id="loadTrack">Load Track</button>
+    <button id="loadTrackList">Load Track List</button>
 </p>
 
 <p>
@@ -33,66 +34,100 @@
     document.addEventListener("DOMContentLoaded", () => {
 
         // Simulate messages coming from python
-        let browserID
+        let id
 
         document.getElementById("createBrowser").addEventListener("click", () => {
 
-            browserID = "jb_" + String.valueOf(Math.random())
+            id = "jb_" + String.valueOf(Math.random())
             // Div creation code is "injected" with IPython.display(HTML....   Simulate that here
 
             const browserDiv = document.createElement("div")
-            browserDiv.setAttribute("id", browserID)
+            browserDiv.setAttribute("id", id)
             document.getElementById("nbCell").appendChild(browserDiv)
 
-            const message = {
-                "command": "createBrowser",
-                "id": browserID,
-                "data": {}
-            }
-            window.JuiceboxMessageHandler.on(JSON.stringify(message))
+            const message =
+                {
+                    "command": "createBrowser",
+                    id,
+                    "data":
+                        {
 
-
-            window.JuiceboxMessageHandler.on({
-                "id": "jb_8391463",
-                "command": "createBrowser",
-                "data": {
-                    "name": "GM12878",
-                    "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic",
-                    "tracks": [{
-                        "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
-                        "name": "CTCF",
-                        "color": "rgb(22, 129, 198)"
-                    }],
-                    "id": "jb_8391463"
+                        }
                 }
-            })
+
+            const messageWithTrack =
+                {
+                    id,
+                    "command": "createBrowser",
+                    "data":
+                        {
+                            "name": "GM12878",
+                            "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic",
+                            "tracks":
+                                [
+                                    {
+                                        "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
+                                        "name": "CTCF",
+                                        "color": "rgb(22, 129, 198)"
+                                    }
+                                ],
+                            id
+                        }
+                }
+
+            window.JuiceboxMessageHandler.on(message)
 
         })
 
         document.getElementById("loadMap").addEventListener("click", () => {
 
-            const message = {
-                command: "loadMap",
-                id: browserID,
-                data: {
-                    "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic"
+            const message =
+                {
+                    command: "loadMap",
+                    id,
+                    data:
+                        {
+                            "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic"
+                        }
                 }
-            }
-            window.JuiceboxMessageHandler.on(JSON.stringify(message))
+            window.JuiceboxMessageHandler.on(message)
 
         })
 
         document.getElementById("loadTrack").addEventListener("click", () => {
-            const message = {
-                command: "loadTrack",
-                id: browserID,
-                data: {
-                    "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
-                    "name": "CTCF",
-                    "color": "#ff8802"
+            const message =
+                {
+                    command: "loadTrack",
+                    id,
+                    data:
+                        {
+                            "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
+                            "name": "CTCF",
+                            "color": "#ff8802"
+                        }
                 }
-            }
-            window.JuiceboxMessageHandler.on(JSON.stringify(message))
+            window.JuiceboxMessageHandler.on(message)
+
+        })
+
+        document.getElementById("loadTrackList").addEventListener("click", () => {
+            const message =
+                {
+                    command: "loadTrackList",
+                    id,
+                    data:
+                        [
+                            {
+                                "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
+                                "name": "CTCF",
+                                "color": "#ff8802"
+                            },
+                            {
+                                "url": "https://hicfiles.s3.amazonaws.com/hiseq/nhek/in-situ/combined_blocks.txt",
+                                "name": "Rao & Huntley et al. | Cell 2014 | NHEK combined domains"
+                            }
+                        ]            }
+            window.JuiceboxMessageHandler.on(message)
 
         })
 
