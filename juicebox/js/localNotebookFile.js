@@ -76,7 +76,7 @@
                     if (count > 100) {
 
                         console.error(`error reading ${path}: timed out`)
-                        reject( `timed out`)
+                        reject(`timed out`)
                     }
 
                     count++
@@ -87,6 +87,7 @@
                         for (var i = 0; i < dataString.length; i++) {
                             bytes[i] = dataString.charCodeAt(i)
                         }
+                        pendingRequests.delete(id)
                         resolve(bytes.buffer)
                     } else {
                         setTimeout(poll, 100)
