@@ -34,29 +34,39 @@
                     const command = msg.command
                     const id = msg.id
                     const data = msg.data
-                    let browser
-                    console.log(data)
-                    convertPaths(data)
+                    const browser = this.browserCache.get(id)
                     try {
                         switch (command) {
                             case "createBrowser":
                                 var div = document.getElementById(id)  // <= created from python
-                                browser = await juicebox.createBrowser(div, data)
-                                this.browserCache.set(id, browser)
+
+                                data.url = convert(data.url)
+                                if (data.tracks) {
+                                    for (let t of data.tracks) {
+                                        t.url = convert(t.url)
+                                        t.indexURL = convert(t.indexURL)
+                                    }
+                                }
+                                const newBrowser = await juicebox.createBrowser(div, data)
+                                this.browserCache.set(id, newBrowser)
                                 break
 
                             case "loadMap":
-                                browser = this.browserCache.get(id)
+                                data.url = convert(data.url)
                                 await browser.loadHicFile(data)
                                 break
 
                             case "loadTrack":
-                                browser = this.browserCache.get(id)
+                                data.url = convert(data.url)
+                                data.indexURL = convert(data.indexURL)
                                 await browser.loadTracks([data])
                                 break
 
                             case "loadTrackList":
-                                browser = this.browserCache.get(id)
+                                for (let t of data) {
+                                    t.url = convert(t.url)
+                                    t.indexURL = convert(t.indexURL)
+                                }
                                 await browser.loadTracks(data)
                                 break
 
@@ -72,35 +82,21 @@
         }
     }
 
-    function convertPaths(config) {
-
-        function convert (path)  {
-            if (!path) {
-                return path
-            } else if (path.startsWith("https://") ||
-                path.startsWith("http://") ||
-                path.startsWith("gs://") ||
-                path.startsWith("data:")) {
-                return path
-            } else {
-                // Try to create a notebook file.  If no notebook file implementation is available for the kernel in
-                // use (e.g. JupyterLab) just return 'path'
-                const nbFile = juicebox.createNotebookLocalFile({path})
-                return nbFile || path
-            }
+    /**
+     * Potentially convert a path to a local File-like object.
+     * @param path
+     * @returns {*}
+     */
+    function convert(path) {
+        if (!path ||
+            path.startsWith("https://") || path.startsWith("http://") || path.startsWith("gs://") || path.startsWith("data:")) {
+            return path
+        } else {
+            // Try to create a notebook file.  If no notebook file implementation is available for the kernel in
+            // use (e.g. JupyterLab) just return 'path'
+            const nbFile = juicebox.createNotebookLocalFile({path})
+            return nbFile || path
         }
-
-        // The map
-        if(config.url) config.url = convert(config.url)
-
-        // Tracks
-        if(config.tracks) {
-            for(let t of config.tracks) {
-                if(t.url) t.url = convert(t.url)
-                if(t.indexURL) t.indexURL = convert(t.indexURL)
-            }
-        }
-        console.log(config)
     }
 
 
