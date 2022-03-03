@@ -1,11 +1,13 @@
 import json
 import random
-import time
-import os.path
+import os
+from .file_reader import register_filecomm
 
 from IPython.display import HTML, Javascript, display
 
 def init():
+
+    register_filecomm()
 
     juicebox_css = """
     const link = document.createElement("link")
@@ -25,7 +27,7 @@ def init():
     """
     display(Javascript(font_awesome_css))
 
-    juicebox_filepath = os.path.join(os.path.dirname(__file__), 'js/juicebox.min.js')
+    juicebox_filepath = os.path.join(os.path.dirname(__file__), 'js/juicebox.js')
     juicebox_file = open(juicebox_filepath, 'r')
     juicebox_js = juicebox_file.read()
     display(Javascript(juicebox_js))
@@ -35,11 +37,10 @@ def init():
     message_js = file.read()
     display(Javascript(message_js))
 
-def hello_javascript():
-    display(Javascript('console.log("hello")'))
-
-def hello_html():
-    display(HTML("<div>Hello</div"))
+    message_filepath = os.path.join(os.path.dirname(__file__), 'js/localNotebookFile.js')
+    file = open(message_filepath, 'r')
+    message_js = file.read()
+    display(Javascript(message_js))
 
 
 
@@ -57,13 +58,6 @@ class Browser(object):
         id = self._gen_id()
         config["id"] = id
         self.igv_id = id
-        self.config = config
-        self.locus = None
-        self.show()
-
-
-    def show(self):
-
 
         """
         Create an juicebox.js "Browser" instance on the front end.  This must be done first.
@@ -73,7 +67,7 @@ class Browser(object):
         self._send({
             "id": self.igv_id,
             "command": "createBrowser",
-            "data": self.config
+            "data": config
         })
 
     def load_map(self, config):
@@ -139,7 +133,7 @@ class Browser(object):
 
 
     def _send(self, msg):
-        javascript = """window.JuiceboxMessageHandler.on(%s)""" % (json.dumps(msg))
+        javascript = """window.juicebox.JuiceboxMessageHandler.on(%s)""" % (json.dumps(msg))
         # print(javascript)
         display(Javascript(javascript))
 

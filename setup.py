@@ -26,5 +26,5 @@ setuptools.setup(name='juicebox',
                  #     'jupyter',
                  #     'notebook>=4.2.0',
                  # ],
-                 package_data={'juicebox': ['js/messageHandler.js', 'js/juicebox.min.js']},
+                 package_data={'juicebox': ['js/messageHandler.js', 'js/localNotebookFile.js', 'js/juicebox.js']},
                  )

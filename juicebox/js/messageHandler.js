@@ -11,7 +11,7 @@
 
 (function () {
 
-    console.log("Installing JuiceboxMessageHandler")
+    console.log("Installing juicebox.JuiceboxMessageHandler")
 
     class MessageHandler {
 
@@ -21,6 +21,7 @@
         }
 
         on(msg) {
+            console.log(`Message received ${msg}`)
             this.messageQueue.enqueue(msg)
             this.processQueue()
         }
@@ -34,6 +35,8 @@
                     const id = msg.id
                     const data = msg.data
                     let browser
+                    console.log(data)
+                    convertPaths(data)
                     try {
                         switch (command) {
                             case "createBrowser":
@@ -69,6 +72,38 @@
         }
     }
 
+    function convertPaths(config) {
+
+        function convert (path)  {
+            if (!path) {
+                return path
+            } else if (path.startsWith("https://") ||
+                path.startsWith("http://") ||
+                path.startsWith("gs://") ||
+                path.startsWith("data:")) {
+                return path
+            } else {
+                // Try to create a notebook file.  If no notebook file implementation is available for the kernel in
+                // use (e.g. JupyterLab) just return 'path'
+                const nbFile = juicebox.createNotebookLocalFile({path})
+                return nbFile || path
+            }
+        }
+
+        // The map
+        if(config.url) config.url = convert(config.url)
+
+        // Tracks
+        if(config.tracks) {
+            for(let t of config.tracks) {
+                if(t.url) t.url = convert(t.url)
+                if(t.indexURL) t.indexURL = convert(t.indexURL)
+            }
+        }
+        console.log(config)
+    }
+
+
     class Queue {
         constructor() {
             this.elements = []
@@ -95,7 +130,7 @@
         }
     }
 
-    window.JuiceboxMessageHandler = new MessageHandler()
+    window.juicebox.JuiceboxMessageHandler = new MessageHandler()
 
     console.log("JuiceboxMessageHandler installed")
 
