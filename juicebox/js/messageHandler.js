@@ -30,11 +30,15 @@
             if (!this.processing) {
                 this.processing = true
                 while (!this.messageQueue.isEmpty()) {
-                    const msg = this.messageQueue.dequeue()
-                    const command = msg.command
-                    const id = msg.id
-                    const data = msg.data
+                    // const msg = this.messageQueue.dequeue()
+                    // const command = msg.command
+                    // const id = msg.id
+                    // const data = msg.data
+
+                    const { id, command, data } = this.messageQueue.dequeue()
+
                     const browser = this.browserCache.get(id)
+
                     try {
                         switch (command) {
                             case "createBrowser":
@@ -49,6 +53,19 @@
                                 }
                                 const newBrowser = await juicebox.createBrowser(div, data)
                                 this.browserCache.set(id, newBrowser)
+                                break
+
+                            case "setResolution":
+
+                                // Test using zoom index. It works fine.
+                                // const { zoomIndex } = data
+                                // await browser.setZoom(parseInt(zoomIndex))
+
+                                const { resolution } = data
+                                const targetResolution = parseInt(resolution)
+                                const zoomIndex = browser.findMatchingZoomIndex(targetResolution, browser.dataset.bpResolutions)
+                                await browser.setZoom(zoomIndex)
+
                                 break
 
                             case "loadMap":

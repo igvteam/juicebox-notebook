@@ -70,6 +70,26 @@ class Browser(object):
             "data": config
         })
 
+    def set_resolution(self, config):
+        """
+        Set zoom resolution
+        param  config: A dictionary specifying a zoom level
+        :type dict
+        """
+
+        # Check for minimal requirements
+        if isinstance(config, dict) == False:
+            if isinstance(config, str):
+                config = {"url": config}
+            else:
+                raise Exception("parameter must be a dictionary or string")
+
+        self._send({
+            "id": self.igv_id,
+            "command": "setResolution",
+            "data": config
+        })
+
     def load_map(self, config):
         """
         Load a map (i.e. hic file).
