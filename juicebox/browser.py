@@ -72,8 +72,8 @@ class Browser(object):
 
     def set_resolution(self, config):
         """
-        Set zoom resolution
-        param  config: A dictionary specifying a zoom level
+        Set resolution
+        param  config: A dictionary specifying a resolution
         :type dict
         """
 
