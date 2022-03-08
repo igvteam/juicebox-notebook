@@ -58,21 +58,10 @@
 
                             case "setNormalization":
 
-                                const settings =
-                                    {
-                                        NONE: 'None',
-                                        VC: 'Coverage',
-                                        VC_SQRT: 'Coverage - Sqrt',
-                                        KR: 'Balanced',
-                                        INTER_VC: 'Interchromosomal Coverage',
-                                        INTER_VC_SQRT: 'Interchromosomal Coverage - Sqrt',
-                                        INTER_KR: 'Interchromosomal Balanced',
-                                        GW_VC: 'Genome-wide Coverage',
-                                        GW_VC_SQRT: 'Genome-wide Coverage - Sqrt',
-                                        GW_KR: 'Genome-wide Balanced'
-                                    }
+                                const normalizations = await browser.getNormalizationOptions()
+                                const validNormalizations = new Set(normalizations)
 
-                                const param = settings[ data ] ? data : 'NONE'
+                                const param = validNormalizations.has(data) ? data : 'NONE'
                                 const index = Object.keys(settings).indexOf(param)
                                 await browser.setNormalization(param)
 
