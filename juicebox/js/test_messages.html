@@ -23,7 +23,7 @@
     <button id="loadMap">Load Map</button>
     <button id="loadTrack">Load Track</button>
     <button id="loadTrackList">Load Track List</button>
-    <button id="setResolution">Set Resolution</button>
+    <button id="setNormalization">Set Normalization</button>
 </p>
 
 <p>
@@ -80,6 +80,19 @@
 
         })
 
+        document.getElementById("setNormalization").addEventListener("click", () => {
+
+            const message =
+                {
+                    command: "setNormalization",
+                    id,
+                    data: 'VC_SQRT'
+                }
+            window.juicebox.JuiceboxMessageHandler.on(message)
+
+        })
+
+        /*
         document.getElementById("setResolution").addEventListener("click", () => {
 
             const message =
@@ -94,6 +107,7 @@
             window.juicebox.JuiceboxMessageHandler.on(message)
 
         })
+         */
 
         document.getElementById("loadMap").addEventListener("click", () => {
 

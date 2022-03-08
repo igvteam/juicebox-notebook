@@ -70,6 +70,23 @@ class Browser(object):
             "data": config
         })
 
+    def set_normalization(self, config):
+        """
+        Set normalization
+        param  config: A string specifying a normalization
+        :type str
+        """
+
+        # Check for minimal requirements
+        if isinstance(config, str) == False:
+            raise Exception("parameter must be a string")
+
+        self._send({
+            "id": self.igv_id,
+            "command": "setNormalization",
+            "data": config
+        })
+
     def set_resolution(self, config):
         """
         Set resolution
