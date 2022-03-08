@@ -23,6 +23,7 @@
     <button id="loadMap">Load Map</button>
     <button id="loadTrack">Load Track</button>
     <button id="loadTrackList">Load Track List</button>
+    <button id="setNormalization">Set Normalization</button>
 </p>
 
 <p>
@@ -78,6 +79,35 @@
             window.juicebox.JuiceboxMessageHandler.on(message)
 
         })
+
+        document.getElementById("setNormalization").addEventListener("click", () => {
+
+            const message =
+                {
+                    command: "setNormalization",
+                    id,
+                    data: 'VC_SQRT'
+                }
+            window.juicebox.JuiceboxMessageHandler.on(message)
+
+        })
+
+        /*
+        document.getElementById("setResolution").addEventListener("click", () => {
+
+            const message =
+                {
+                    command: "setResolution",
+                    id,
+                    data:
+                        {
+                            'resolution': '175000'
+                        }
+                }
+            window.juicebox.JuiceboxMessageHandler.on(message)
+
+        })
+         */
 
         document.getElementById("loadMap").addEventListener("click", () => {
 

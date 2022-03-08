@@ -70,6 +70,43 @@ class Browser(object):
             "data": config
         })
 
+    def set_normalization(self, config):
+        """
+        Set normalization
+        param  config: A string specifying a normalization
+        :type str
+        """
+
+        # Check for minimal requirements
+        if isinstance(config, str) == False:
+            raise Exception("parameter must be a string")
+
+        self._send({
+            "id": self.igv_id,
+            "command": "setNormalization",
+            "data": config
+        })
+
+    def set_resolution(self, config):
+        """
+        Set resolution
+        param  config: A dictionary specifying a resolution
+        :type dict
+        """
+
+        # Check for minimal requirements
+        if isinstance(config, dict) == False:
+            if isinstance(config, str):
+                config = {"url": config}
+            else:
+                raise Exception("parameter must be a dictionary or string")
+
+        self._send({
+            "id": self.igv_id,
+            "command": "setResolution",
+            "data": config
+        })
+
     def load_map(self, config):
         """
         Load a map (i.e. hic file).

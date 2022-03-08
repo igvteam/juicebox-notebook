@@ -30,13 +30,18 @@
             if (!this.processing) {
                 this.processing = true
                 while (!this.messageQueue.isEmpty()) {
-                    const msg = this.messageQueue.dequeue()
-                    const command = msg.command
-                    const id = msg.id
-                    const data = msg.data
+                    // const msg = this.messageQueue.dequeue()
+                    // const command = msg.command
+                    // const id = msg.id
+                    // const data = msg.data
+
+                    const { id, command, data } = this.messageQueue.dequeue()
+
                     const browser = this.browserCache.get(id)
+
                     try {
                         switch (command) {
+
                             case "createBrowser":
                                 var div = document.getElementById(id)  // <= created from python
 
@@ -49,6 +54,43 @@
                                 }
                                 const newBrowser = await juicebox.createBrowser(div, data)
                                 this.browserCache.set(id, newBrowser)
+                                break
+
+                            case "setNormalization":
+
+                                const settings =
+                                    {
+                                        NONE: 'None',
+                                        VC: 'Coverage',
+                                        VC_SQRT: 'Coverage - Sqrt',
+                                        KR: 'Balanced',
+                                        INTER_VC: 'Interchromosomal Coverage',
+                                        INTER_VC_SQRT: 'Interchromosomal Coverage - Sqrt',
+                                        INTER_KR: 'Interchromosomal Balanced',
+                                        GW_VC: 'Genome-wide Coverage',
+                                        GW_VC_SQRT: 'Genome-wide Coverage - Sqrt',
+                                        GW_KR: 'Genome-wide Balanced'
+                                    }
+
+                                const param = settings[ data ] ? data : 'NONE'
+                                const index = Object.keys(settings).indexOf(param)
+                                await browser.setNormalization(param)
+
+                                browser.normalizationSelector.$normalization_selector.get(0).getElementsByTagName('option')[ index ].selected = 'selected'
+
+                                break
+
+                            case "setResolution":
+
+                                // Test using zoom index. It works fine.
+                                // const { zoomIndex } = data
+                                // await browser.setZoom(parseInt(zoomIndex))
+
+                                const { resolution } = data
+                                const targetResolution = parseInt(resolution)
+                                const zoomIndex = browser.findMatchingZoomIndex(targetResolution, browser.dataset.bpResolutions)
+                                await browser.setZoom(zoomIndex)
+
                                 break
 
                             case "loadMap":

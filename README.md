@@ -4,7 +4,7 @@
 [![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-notebook/main?filepath=examples)
 =======
 
-juicebox-notebook is an module for Jupyter and Colab notesbooks which exposes a python API that 
+juicebox-notebook is a module for Jupyter and Colab notesbooks which exposes a python API that 
 enables creation and interaction with a [juicebox.js](https://github.com/igvteam/juicebox.js) instance in a cell.  
 
 ## Installation
@@ -20,7 +20,6 @@ pip install juicebox
 ## Initialization
 
 To insert a juicebox instance into a cell:  
-
 
 Example:
 
@@ -46,7 +45,6 @@ createBrowser function.   The configuration object is described in the
 [juicebox.js documentation](https://github.com/igvteam/juicebox.js#usage).  To open an empty "browser" to dynamically
 load maps pass an empty dictionary
 
-
 ## Maps
 
 To load a map into an existing browser pass a hic file configuration object to the load_map function
@@ -69,8 +67,6 @@ objects are described in the [juicebox.js documentation](https://github.com/igvt
 The configuration object will be converted to JSON and passed to the juicebox.js browser
 instance.
 
-
-
 ```python
 import juicebox
 juicebox.init()
@@ -86,12 +82,14 @@ b.load_track({
     "color": "#ff8802"
   }
 )
+```
 
+## Live Google Colab Notebook README
+This notebook demonstrates the use of juicebox-notebook in Google Colob
+[Juicebox Notebook Live README](https://colab.research.google.com/drive/1eHeavVN1m6SvF7dvXInnJD3aIVnMCIry?usp=sharing)
 
 
 ### Development
-
-
 
 #### Creating a conda environment:
 ```bash
