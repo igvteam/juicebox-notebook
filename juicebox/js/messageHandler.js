@@ -71,12 +71,9 @@
 
                             case "setResolution":
 
-                                // Test using zoom index. It works fine.
-                                // const { zoomIndex } = data
-                                // await browser.setZoom(parseInt(zoomIndex))
-
                                 const { resolution } = data
                                 const targetResolution = parseInt(resolution)
+
                                 const zoomIndex = browser.findMatchingZoomIndex(targetResolution, browser.dataset.bpResolutions)
                                 await browser.setZoom(zoomIndex)
 
