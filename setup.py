@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(name='juicebox',
                  packages=['juicebox'],
-                 version='0.1.0',
+                 version='0.1.1',
                  description='Package for embedding the juicebox.js hic visualization in IPython notebooks',
                  long_description=long_description,
                  long_description_content_type="text/markdown",
