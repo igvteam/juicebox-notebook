@@ -62,9 +62,9 @@
                                 const validNormalizations = new Set(normalizations)
 
                                 const param = validNormalizations.has(data) ? data : 'NONE'
-                                const index = Object.keys(settings).indexOf(param)
                                 await browser.setNormalization(param)
 
+                                const index = normalizations.indexOf(param)
                                 browser.normalizationSelector.$normalization_selector.get(0).getElementsByTagName('option')[ index ].selected = 'selected'
 
                                 break
