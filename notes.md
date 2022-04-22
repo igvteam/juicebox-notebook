@@ -17,7 +17,7 @@ pip install -e .
 *  Build the archive
 
 ```bash
-rm -rf dist/*
+rm -rf dist
 python setup.py sdist bdist_wheel
 ```
 * Upload to test.pypi
