@@ -14,10 +14,7 @@ enables creation and interaction with a [juicebox.js](https://github.com/igvteam
 
 ### Examples
 
-Example notebooks are available in the github repository, and can be run from the Binder and Colab links above. 
-To download examples without cloning the repository use this 
-[link](https://github.com/igvteam/juicebox-notebook/archive/master.zip). Notebooks are available in the
-"examples" directory.
+Example notebooks are available in the github repository in the "examples" directory of the [github repository](https://github.com/igvteam/juicebox-notebook/tree/main/examples).
 
 ## Installation
 
@@ -43,8 +40,10 @@ for each cell, so these steps must be repeated for each cell in which  juicebox-
 
 ### Browser creation
 
-The juicebox.Browser initializer takes a configuration dictionary which is converted to JSON and passed to the juicebox.js
-```init``` function. See the juicebox.js [README](https://github.com/igvteam/juicebox.js)
+The juicebox_notebook.Browser constructor takes a configuration object which is converted to JSON and passed to the juicebox.js
+createBrowser function.   The configuration object is described in the
+[juicebox.js documentation](https://github.com/igvteam/juicebox.js#usage).  To open an empty "browser" to dynamically
+load maps pass an empty dictionary.
 
 **Example:**
 
@@ -68,12 +67,9 @@ b = juicebox_notebook.Browser(
 ```
 
 
-The juicebox_notebook.Browser initializer takes a configuration object which is converted to JSON and passed to the juicebox.js
-createBrowser function.   The configuration object is described in the
-[juicebox.js documentation](https://github.com/igvteam/juicebox.js#usage).  To open an empty "browser" to dynamically
-load maps pass an empty dictionary
 
-### Loading Maps and Tracks
+
+### Dynamically loading maps and tracks
 
 Typically maps and tracks are loaded in the initial ```juicebox.Browser``` creation.  However its also possible to 
 load them post creation using the ```b.load_map(config``` and ```b.load_track``` functions.  
@@ -124,36 +120,38 @@ b.load_track({
 ### URLS and paths
 
 Configuration objects for juicebox.js maps (.hic files) and tracks have properties to specify URLs to files for 
-data and indexes.  These properties are  supported in juicbox-notebook, however juicebox-notebook also provides 
+data and indexes.  These properties are  supported in juicebox-notebook, however juicebox-notebook also provides 
 equivalent ```path``` properties for specfiying paths to  local files when used with Jupyter Notebook or Colab.  
-(_**Note**_: The ```path``` properties cannot be used with JupyterLab, however local files can
-be loaded by URL).  The ```path``` properties are useful for
+The ```path``` properties are useful for
 
 1. Loading data in a Colab notebook from the local Colab file system or a mounted Google Drive
 1. Loading data in Jupyter Notebook from the local file system that is outside the Jupyter file tree. 
 
-For Jupyter servers (Notebook and Lab) local files can be also be loaded via the url property if the file is in 
-Jupyter  directorytree.  This will usually yield better performance than using ```path``` properties.  URLs that begin 
-with a "/" are relative to the Jupyter server startup directory, that is the directory from where you started 
-Jupyter Notebook or JupyterLab.  URL paths without a leading slash are assumed to be relative to the notebook directory.  
-See below for examples.  You can also use the "download url" for the file, obtainable through the JupyterLab UI, as the 
-URL for juicebox.
 
 **URL and Path properties**
 
 | juicebox.js url property  | juicebox-notebook path property | notes
 | --------- | ----------- | -------- |
- | url  | path |
- | indexURL | indexPath | Used in some track configurations.  See [igv.js](https://github.com/igvteam/igv.js/wiki)
+| url  | path |
+| indexURL | indexPath | Used in some track configurations.  See [igv.js](https://github.com/igvteam/igv.js/wiki)
 
 
+(_**Note**_: The ```path``` properties cannot be used with JupyterLab, however local files can
+be loaded by URL).
+
+For Jupyter servers (Notebook and Lab) local files can be also be loaded via the url property if the file is in 
+Jupyter  directory tree.  This will usually yield better performance than using ```path``` properties.  URLs that begin 
+with a "/" are relative to the Jupyter server startup directory, that is the directory from where you started 
+Jupyter Notebook or JupyterLab.  URL paths without a leading slash are assumed to be relative to the notebook directory.  
+See below for examples.  You can also use the JupyterLab "download url" for the file, obtainable through the JupyterLab UI, as the 
+URL for juicebox.
 
 
 **Examples:** 
 
 ----
 
-Local files using absolute file paths - Jupyter Notebook and Colab, potentially outside the Jupyter file tree.  Note the use 
+Jupyter Notebook and Colab.  Local files using absolute file paths, potentially outside the Jupyter file tree.  Note the use 
 of ```path``` instead of ```url```.
 
 ```python
@@ -178,7 +176,7 @@ b = juicebox_notebook.Browser(
 
 ----
 
-Local files using urls - Jupyter Notebook and Lab.  The URL is relative to the startup directory of the Jupyter server 
+Jupyter Notebook and JupyterLab.  Local files using urls relative to the startup directory of the Jupyter server. 
 
 ```python
 import juicebox_notebook
@@ -201,7 +199,7 @@ b = juicebox_notebook.Browser(
 ```
 ----
 
-Local files using urls - Jupyter Notebook and Lab.  URL is relative to the directory of the notebook
+Jupyter Notebook and Lab. Local files using urls relative to the directory of the notebook.
 
 ```python
 import juicebox_notebook
@@ -224,7 +222,7 @@ b = juicebox_notebook.Browser(
 ```
 ----
 
-Remote files using urls - All platforms
+All platforms. Remote files using urls.
 
 ```python
 import juicebox_notebook
