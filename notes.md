@@ -42,4 +42,4 @@ pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://
 
 ### Example Notebook
 
-[Colab example](https://colab.research.google.com/drive/1ebC3QUJiDGNUON34V2O99cGIdc11D3D5?usp=sharing)
+[Colab example](https://colab.research.google.com/drive/1oLrDItsMZAEQmrsXa9A7MiiMjar0aagW?usp=sharing)

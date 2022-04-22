@@ -38,7 +38,7 @@ import juicebox_notebook
 juicebox_notebook.init()
 ```
 For a Jupyter notebook this should be done once per notebook.   Colab notebooks display output in a sandboxed iFrame 
-for each cell, so these steps must be repeated for each cell in which  igv-notebook is used.
+for each cell, so these steps must be repeated for each cell in which  juicebox-notebook is used.
 
 
 ### Browser creation
