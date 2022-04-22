@@ -7,7 +7,7 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ebC3QUJiDGNUON34V2O99cGIdc11D3D5?usp=sharing)
 
-=======
+----
 
 juicebox-notebook is an module for Jupyter and Colab notesbooks which exposes a python API that 
 enables creation and interaction with a [juicebox.js](https://github.com/igvteam/juicebox.js) instance in a cell.  
@@ -49,7 +49,9 @@ The juicebox.Browser initializer takes a configuration dictionary which is conve
 **Example:**
 
 ```python
-browser = juicebox_notebook.Browser(
+import juicebox_notebook
+juicebox_notebook.init()
+b = juicebox_notebook.Browser(
     {
         "name": "GM12878",
         "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic",
@@ -138,8 +140,9 @@ See below for examples.  You can also use the "download url" for the file, obtai
 URL for juicebox.
 
 **URL and Path properties**
+
 | juicebox.js url property  | juicebox-notebook path property | notes
-| --------- | ----------- |
+| --------- | ----------- | -------- |
  | url  | path |
  | indexURL | indexPath | Used in some track configurations.  See [igv.js](https://github.com/igvteam/igv.js/wiki)
 
@@ -148,7 +151,9 @@ URL for juicebox.
 
 **Examples:** 
 
-Local files using paths - Jupyter and Colab.  Absolute file paths, potentially outside the Jupyter file tree.  Note the use 
+----
+
+Local files using absolute file paths - Jupyter Notebook and Colab, potentially outside the Jupyter file tree.  Note the use 
 of ```path``` instead of ```url```.
 
 ```python
@@ -171,7 +176,9 @@ b = juicebox_notebook.Browser(
 )
 ```
 
-Local files using absolute urls - Jupyter.  The URL is relative to the startup directory of the Jupyter server 
+----
+
+Local files using urls - Jupyter Notebook and Lab.  The URL is relative to the startup directory of the Jupyter server 
 
 ```python
 import juicebox_notebook
@@ -180,10 +187,10 @@ juicebox_notebook.init()
 b = juicebox_notebook.Browser(
     {
         "name": "GM12878",
-        "path": "/TestData/juicebox/HCT-116_Untreated.hic",
+        "url": "/TestData/juicebox/HCT-116_Untreated.hic",
         "tracks": [
             {
-                "path": "/TestData/juicebox/CTCF_Untreated.bw",
+                "url": "/TestData/juicebox/CTCF_Untreated.bw",
                 "type": "wig",
                 "name": "CTCF",
                 "color": "rgb(22, 129, 198)"
@@ -192,8 +199,9 @@ b = juicebox_notebook.Browser(
     }
 )
 ```
+----
 
-Local files using relative urls - Jupyter.  URL relative to the directory of the notebook
+Local files using urls - Jupyter Notebook and Lab.  URL is relative to the directory of the notebook
 
 ```python
 import juicebox_notebook
@@ -202,7 +210,7 @@ juicebox_notebook.init()
 b = juicebox_notebook.Browser(
     {
         "name": "GM12878",
-        "path": "TestData/juicebox/HCT-116_Untreated.hic",
+        "url": "TestData/juicebox/HCT-116_Untreated.hic",
         "tracks": [
             {
                 "path": "TestData/juicebox/CTCF_Untreated.bw",
@@ -214,24 +222,27 @@ b = juicebox_notebook.Browser(
     }
 )
 ```
+----
 
-### Development notes
+Remote files using urls - All platforms
 
+```python
+import juicebox_notebook
+juicebox_notebook.init()
+b = juicebox_notebook.Browser(
+    {
+        "name": "GM12878",
+        "url": "https://www.encodeproject.org/files/ENCFF179HVU/@@download/ENCFF179HVU.hic",
+        "tracks": [
+            {
+                "url": "https://www.encodeproject.org/files/ENCFF000ARJ/@@download/ENCFF000ARJ.bigWig",
+                "name": "CTCF",
+                "color": "rgb(22, 129, 198)"
+            }
+        ]
+    }
 
-#### Creating a conda environment:
-```bash
-conda create -n juicebox_notebook python=3.9.1
-conda activate juicebox_notebook
-conda install pip
-conda install jupyter
+)
 ```
-
-#### Build and install from source:
-
-```bash
-python setup.py build  
-pip install -e .
-```
-
 
 
