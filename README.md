@@ -3,7 +3,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-notebook/main?filepath=examples)   _**Jupyter Notebook**_
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-notebook/main?urlpath=lab/tree/examples)  _**JupyterLab**_
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/igvteam/juicebox-notebook/main?urlpath=lab/tree/examples/RemoteFiles.ipynb)  _**JupyterLab**_
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1oLrDItsMZAEQmrsXa9A7MiiMjar0aagW?usp=sharing)
 
