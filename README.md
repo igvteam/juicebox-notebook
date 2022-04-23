@@ -142,8 +142,9 @@ be loaded by URL).
 For Jupyter servers (Notebook and Lab) local files can be also be loaded via the url property if the file is in 
 Jupyter  directory tree.  This will usually yield better performance than using ```path``` properties.  URLs that begin 
 with a "/" are relative to the Jupyter server startup directory, that is the directory from where you started 
-Jupyter Notebook or JupyterLab.  URL paths without a leading slash are assumed to be relative to the notebook directory.  
-See below for examples.  You can also use the JupyterLab "download url" for the file, obtainable through the JupyterLab UI, as the 
+Jupyter Notebook or JupyterLab.  _**For Jupyter Notebook only**_, URL paths without a leading slash can be used and
+are assumed to be relative to the notebook directory.  See below for examples.  You can also use the JupyterLab 
+"download url" for the file, obtainable through the JupyterLab UI, as the 
 URL for juicebox.
 
 
